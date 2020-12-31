@@ -1,0 +1,54 @@
+/* Stylesheet */
+
+.root {
+
+    -fx-base: #FFFFCC;
+    -fx-control-inner-background: #FFFFCC;
+    -fx-background-color: rgba(224, 214, 115 , 0.8);
+
+
+}
+
+#pn_top {
+
+    -fx-background-image: url("file:///c:/temp/beertab530x362.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: contain;
+
+}
+
+
+#checkout {
+    -fx-font-size: 12px;
+    -fx-background-color: #FFFFCC;
+    -fx-text-fill: black;
+    -fx-padding: 5 5 5 5;
+    -fx-font-weight: bold;
+    -fx-font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;;
+}
+
+/*  Beer Tab Table: */
+#beerTabTable  {
+    /*
+    -fx-base: #1d1d1d;
+    -fx-control-inner-background: #1d1d1d;
+    -fx-background-color: #1d1d1d;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+*/
+
+    -fx-background-image: url("file:///c:/temp/ASU.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+    -fx-opacity: 0.8;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.table-cell:editable {
+    -fx-border-color: red ;
+}
