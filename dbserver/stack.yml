@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - 8181:5432
+    env_file:
+      - ./.env.database
+
+  adminer:
+    image: adminer
+    ports:
+      - 8180:8080
