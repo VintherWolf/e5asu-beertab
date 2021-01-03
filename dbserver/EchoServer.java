@@ -35,12 +35,7 @@ import java.net.ServerSocket;
 public class EchoServer {
     public static void main(String[] args) throws IOException {
 
-        if (args.length != 1) {
-            System.err.println("Usage: java EchoServer <port number>");
-            System.exit(1);
-        }
-
-        int portNumber = Integer.parseInt(args[0]);
+        int portNumber = 8182;
         boolean listening = true;
         System.out.println("Echo Server listening on port " + portNumber);
 

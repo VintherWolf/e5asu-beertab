@@ -19,6 +19,7 @@ import java.net.UnknownHostException;
 public class Beertab extends Application {
 
     private static final int MAXCOUNT = 6;
+    private int check = 1;
 
     @Override
     public void init() throws Exception
@@ -29,12 +30,35 @@ public class Beertab extends Application {
 
         // Initialize stuff here and splashscreen is enabled as long
         // as init is ongoing
-        longStart();
-        Thread.sleep(200);
-        // TODO:
-        // 1. Implement Database load
-        connectDatabase("127.0.0.1", 4444);
-        // 2. Preloader image
+        //longStart();
+        Thread.sleep(500);
+
+        // Load CustomerTable from Database
+        notifyPreloader(new Preloader.ProgressNotification(Main.conDbStart));
+        Thread.sleep(2000);
+        check = connectDatabase("127.0.0.1", 8182);
+        if (check != 0) {
+
+          switch (check) {
+                case -1:
+                    notifyPreloader(new Preloader.ProgressNotification(Main.conDbFailUnknownHost));
+                    break;
+                case -2:
+                    notifyPreloader(new Preloader.ProgressNotification(Main.conDbFailIO));
+                    break;
+                default:
+                    notifyPreloader(new Preloader.ProgressNotification(Main.conDbFailUnknownError));
+                    break;
+            }
+        }
+        else {
+            notifyPreloader(new Preloader.ProgressNotification(Main.conDbSuccess));
+        }
+        Thread.sleep(2000);
+
+        // All done
+        notifyPreloader(new Preloader.ProgressNotification(100));
+        Thread.sleep(2000);
     }
 
     private void longStart() {
@@ -57,31 +81,30 @@ public class Beertab extends Application {
         new Thread(task).start();
     }
 
-    private void connectDatabase(String host, int port) throws Exception {
+    private int connectDatabase(String host, int port) throws Exception {
 
         try (
-            Socket echoSocket = new Socket(host, port);
-            PrintWriter out =
-                    new PrintWriter(echoSocket.getOutputStream(), true);
-            BufferedReader in =
-                    new BufferedReader(
-                            new InputStreamReader(echoSocket.getInputStream()));
-            BufferedReader stdIn =
-                    new BufferedReader(
-                            new InputStreamReader(System.in))
+                Socket echoSocket = new Socket(host, port);
+                PrintWriter out =
+                        new PrintWriter(echoSocket.getOutputStream(), true);
+                BufferedReader in =
+                        new BufferedReader(
+                                new InputStreamReader(echoSocket.getInputStream()));
+                BufferedReader stdIn =
+                        new BufferedReader(
+                                new InputStreamReader(System.in))
         ) {
-            out.println("Hello from echo Client!");
-            System.out.println("echo: " + in.readLine());
-        }
-        catch (UnknownHostException e) {
+            out.println("retrieve data");
+            System.out.println("Received: " + in.readLine());
+        } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
-            System.exit(1);
-        }
-        catch (IOException e) {
+            return -1;
+        } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " +
-                host);
-            System.exit(1);
+                    host);
+            return -2;
         }
+        return 0;
     }
 
 

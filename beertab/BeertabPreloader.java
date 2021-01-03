@@ -43,9 +43,44 @@ public class BeertabPreloader extends Preloader {
     public void handleApplicationNotification(Preloader.PreloaderNotification info)
     {
         if (info instanceof ProgressNotification) {
-            int progressValue = (int) ((ProgressNotification) info).getProgress();
-            System.out.println(progressValue);
-            BeertabPreloaderController.progresslabel.setText("Loading "+ ((progressValue)));
+            double progressValue = ((ProgressNotification) info).getProgress();
+
+            if (progressValue > 0 && progressValue <= 100) {
+                BeertabPreloaderController.progbar.setProgress(progressValue/100);
+            }
+
+            if ((int) progressValue >= Main.conDbStart && (int) progressValue < Main.conDbSuccess) {
+
+                switch((int)progressValue) {
+
+                    case (int) Main.conDbStart:
+                        BeertabPreloaderController.progresslabel.setText("Loading Tables from Database");
+                        break;
+                    case (int) Main.conDbFailUnknownHost:
+                        BeertabPreloaderController.progresslabel.setText("Failed to Connect to DB (Unknown Host)");
+                        break;
+                    case (int) Main.conDbFailIO:
+                        BeertabPreloaderController.progresslabel.setText("Failed to Connect to DB (IO Error)");
+                        break;
+                    case (int) Main.conDbFailUnknownError:
+                        BeertabPreloaderController.progresslabel.setText("Failed to Connect to DB (Unknown Error)");
+                        break;
+                    default:
+                        BeertabPreloaderController.progresslabel.setText("Unexpected Error Occurred!");
+                        break;
+                }
+
+            }
+
+            if (progressValue == Main.conDbSuccess) {
+                BeertabPreloaderController.progresslabel.setText("Success!");
+            }
+
+            if (progressValue == 100) {
+                BeertabPreloaderController.progresslabel.setText("All Done! Starting Application");
+            }
+
+
         }
 
     }

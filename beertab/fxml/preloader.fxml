@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="beertab.controllers.BeertabPreloaderController">
+<BorderPane fx:id="plbckg" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="700.0" stylesheets="@preloaderstyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="beertab.controllers.BeertabPreloaderController">
 <bottom>
-    <VBox alignment="CENTER" prefHeight="50.0" prefWidth="639.0" BorderPane.alignment="CENTER">
-
-
-
-    </VBox>
+    <VBox alignment="CENTER" prefHeight="73.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="splashlabel" prefHeight="25.0" prefWidth="473.0" text="Loading">
+               <font>
+                  <Font name="Verdana" size="14.0" />
+               </font>
+            </Label>
+            <ProgressBar fx:id="pbar" prefHeight="14.0" prefWidth="475.0" progress="0.0" />
+         </children></VBox>
 </bottom>
    <top>
 
     <VBox alignment="CENTER" prefHeight="50.0" prefWidth="639.0" BorderPane.alignment="CENTER" />
    </top>
-   <center>
-      <Label fx:id="splashlabel" text="Label" BorderPane.alignment="CENTER" />
-   </center>
 </BorderPane>

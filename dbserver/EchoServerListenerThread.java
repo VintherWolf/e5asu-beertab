@@ -1,3 +1,5 @@
+import dbserver.DatabaseProvider;
+
 import java.net.*;
 import java.io.*;
 
@@ -19,11 +21,16 @@ public class EchoServerListenerThread extends Thread {
         ) {
             String inputLine, outputLine;
             System.out.println("Received connection!");
-
+            outputLine = "test";
             while ((inputLine = in.readLine()) != null) {
-                outputLine = inputLine;
-                out.println(outputLine);
-                System.out.println(outputLine);
+                System.out.println("Received: " + inputLine);
+                if (inputLine.equals("retrieve data")) {
+                    System.out.println("Received OK: " + inputLine);
+                    out.println(outputLine);
+                    //out.println(DatabaseProvider.retrieveData());
+                }
+                //System.out.println("Sending: " + outputLine);
+
                 if (outputLine.equals("Bye"))
                     break;
             }

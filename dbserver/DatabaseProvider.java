@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.PreparedStatement;
@@ -53,7 +55,9 @@ public class DatabaseProvider {
     }
 
 
-    public static void retrieveData() {
+    public static List<String> retrieveData() {
+
+        List<String> retData = new ArrayList<String>();
 
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM customertable");
@@ -67,21 +71,38 @@ public class DatabaseProvider {
                 String beverage = rs.getString(4);
                 int quantity = rs.getInt(5);
                 int cost = rs.getInt(6);
-
+                /*
                 System.out.println(customerId + "  " +
                         table + "  " +
                         customer +  "  " +
                         beverage + "  " +
                         quantity + "  " +
                         cost);
+                */
+                String tempData = new StringBuilder()
+                        .append(customerId)
+                        .append(" ")
+                        .append(table)
+                        .append(" ")
+                        .append(customer)
+                        .append(" ")
+                        .append(beverage)
+                        .append(" ")
+                        .append(quantity)
+                        .append(" ")
+                        .append(cost).toString();
+
+                retData.add(tempData);
             }
+
 
         } catch (SQLException ex) {
 
             Logger lgr = Logger.getLogger(DatabaseProvider.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
+        //System.out.println("Ret Data: " + retData);
+        return retData;
     }
 
     public static void main(String[] args) {
