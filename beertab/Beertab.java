@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Beertab extends Application {
 
@@ -94,8 +96,24 @@ public class Beertab extends Application {
                         new BufferedReader(
                                 new InputStreamReader(System.in))
         ) {
-            out.println("retrieve data");
-            System.out.println("Received: " + in.readLine());
+            out.println("retrieve data\r\n");
+            Thread.sleep(100);
+            // Received table rows from database
+            List<String> retData = new ArrayList<String>();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null)
+            {
+                System.out.println("Received from server: " + inputLine);
+
+                if (inputLine.equals("Bye"))
+                {
+                    break;
+                }
+
+                retData.add(inputLine);
+
+            }
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             return -1;

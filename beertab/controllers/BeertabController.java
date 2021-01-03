@@ -57,8 +57,13 @@ public class BeertabController implements Initializable  {
         quantityCol.setCellValueFactory(new PropertyValueFactory<CustomerTable, Integer>("quantity"));
         costCol.setCellValueFactory(new PropertyValueFactory<CustomerTable, Integer>("Cost"));
 
-        // load initial row into table?:
+        // load database table:
 
+
+
+
+        CustomerTable row = new CustomerTable(50);
+        beerTabTable.getItems().add(row);
 
         // Making the table editable:
         beerTabTable.setEditable(true);
