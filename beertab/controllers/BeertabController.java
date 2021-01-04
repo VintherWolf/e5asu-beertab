@@ -1,5 +1,6 @@
 package beertab.controllers;
 
+import beertab.Beertab;
 import beertab.entities.CustomerTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,8 +13,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.IntegerStringConverter;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BeertabController implements Initializable  {
@@ -42,13 +48,51 @@ public class BeertabController implements Initializable  {
     private TableColumn<CustomerTable, Integer> costCol;
     // End of BeerTabTable
 
-    private int customerId;
+    public void setTables() throws ParseException {
+
+        List<String> retData = new Beertab().retData;
+
+
+        if(retData != null || retData.size() != 0)
+        {
+            System.out.println("Retrieving data from db!");
+
+            int customerId = 0;
+            int table = 0;
+            String customer = "";
+            String beverage = "";
+            int quantity = 0;
+            int cost = 0;
+
+            // Send data for each row (JSON Formatted string)
+            for(String str : retData)
+            {
+                JSONParser parser = new JSONParser();
+                JSONObject jsonobj = (JSONObject) parser.parse(str);
+
+
+                customerId = (int) jsonobj.get("customerId");
+                table = (int) jsonobj.get("table");
+                customer = (String) jsonobj.get("Customer");
+                beverage = (String) jsonobj.get("Beverage");
+                quantity = (int) jsonobj.get("quantity");
+                cost = (int) jsonobj.get("cost");
+
+                CustomerTable row = new CustomerTable(customerId, table, customer, beverage, quantity, cost);
+                beerTabTable.getItems().add(row);
+            }
+
+        }
+        else
+        {
+            System.out.println("No tables to set from database");
+        }
+
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        this.customerId = 1;
-        // Set up columns
 
         idCol.setCellValueFactory(new PropertyValueFactory<CustomerTable, Integer>("customerId"));
         tableCol.setCellValueFactory(new PropertyValueFactory<CustomerTable, Integer>("Table"));
@@ -58,12 +102,12 @@ public class BeertabController implements Initializable  {
         costCol.setCellValueFactory(new PropertyValueFactory<CustomerTable, Integer>("Cost"));
 
         // load database table:
+        try {
+            setTables();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-
-
-
-        CustomerTable row = new CustomerTable(50);
-        beerTabTable.getItems().add(row);
 
         // Making the table editable:
         beerTabTable.setEditable(true);
@@ -189,7 +233,7 @@ public class BeertabController implements Initializable  {
 
         if (customerSelected == null && event.isPrimaryButtonDown())
         {
-            CustomerTable row = new CustomerTable(customerId++);
+            CustomerTable row = new CustomerTable();
             beerTabTable.getItems().add(row);
         }
 

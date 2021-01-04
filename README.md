@@ -14,18 +14,58 @@ The purpose of this application is to demonstrate the use of JavaFX Preloader an
 ### Start Docker Swarm Postgresql Database Server
 
 #### Preparation:
-Generate environment file for the Database:
+
+1) Generate environment file for the Database:
 
 - filename:  .env.database
 - location:  ./dbserver (local to stack.yml)
-###### content:
-POSTGRES_USER=desired_username
+###### With content:
+- *POSTGRES_USER=desired_username*
+- *POSTGRES_PASSWORD=desired_password*
 
-POSTGRES_PASSWORD=desired_password
+2) Generate Database Volume:
 
+`# docker volume create db-storage`
 #### Start Database Instance
 
-''' # docker stack deploy -c stack.yml postgres
-'''
+`# docker stack deploy -c stack.yml postgres`
 
 postgresql instance will then run at localhost:8181
+
+#### Post-Start Alignments: Configure Database
+
+1) Create database using psql
+
+`# CREATE DATABASE beertab;`
+Test: `# \l`'
+
+
+2) Connect to beertab database:
+
+`# \connect beertab`
+
+
+2) Create Table if not exists in beertab
+
+`# CREATE TABLE IF NOT EXISTS customertable(customerId serial PRIMARY KEY,
+ctable INT,
+Customer VARCHAR(10),
+Beverage VARCHAR(10),
+quantity INT,
+cost INT
+);`
+
+3. Insert Data into Customertable
+
+`# INSERT INTO customertable(
+ctable, Customer, Beverage, quantity, cost)`
+
+`# VALUES(1, 'John Doe', 'IPA', 3, 50);`
+
+Test: Expected to return: **INSERT 0 1**
+
+4: Check Data is Present in Table:
+
+
+`# SELECT * FROM customertable;`
+

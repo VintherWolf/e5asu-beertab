@@ -5,10 +5,11 @@ services:
     image: postgres
     ports:
       - 8181:5432
+    volumes:
+    - db-storage:/var/lib/postgresql/data/
     env_file:
       - ./.env.database
 
-  adminer:
-    image: adminer
-    ports:
-      - 8180:8080
+volumes:
+  db-storage:
+    external: true

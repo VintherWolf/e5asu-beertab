@@ -9,9 +9,6 @@ public class CustomerTable  {
     private String Beverage;
     private int quantity;
     private int cost;
-    // Arbitrary Variables
-    private int id;
-
 
     public int getCustomerId() {
         return customerId;
@@ -70,16 +67,14 @@ public class CustomerTable  {
         this.cost = 0;
     }
 
-    public CustomerTable(int id){
+    public CustomerTable(int id, int tb, String cust, String bev, int qty, int cost){
 
         this.customerId = id;
-        this.Customer = "";
-        this.Beverage = "";
-        this.quantity = 0;
-        this.cost = 0;
+        this.table = tb;
+        this.Customer = cust;
+        this.Beverage = bev;
+        this.quantity = qty;
+        this.cost = cost;
     }
-
-
-
 
 }
