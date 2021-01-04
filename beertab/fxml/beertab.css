@@ -11,7 +11,7 @@
 
 #pn_top {
 
-    -fx-background-image: url("file:///c:/temp/beertab530x362.jpg");
+    -fx-background-image: url("../../media/beertab530x362.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: contain;
@@ -30,15 +30,8 @@
 
 /*  Beer Tab Table: */
 #beerTabTable  {
-    /*
-    -fx-base: #1d1d1d;
-    -fx-control-inner-background: #1d1d1d;
-    -fx-background-color: #1d1d1d;
-    -fx-table-cell-border-color: transparent;
-    -fx-table-header-border-color: transparent;
-*/
 
-    -fx-background-image: url("file:///c:/temp/ASU.jpg");
+    -fx-background-image: url("../../media/ASU.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-size: cover;

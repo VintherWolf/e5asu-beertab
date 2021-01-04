@@ -31,7 +31,7 @@ public class CustomerTable  {
     }
 
     public void setCustomer(String customer) {
-        Customer = customer;
+        this.Customer = customer;
     }
 
     public String getBeverage() {
@@ -39,7 +39,7 @@ public class CustomerTable  {
     }
 
     public void setBeverage(String beverage) {
-        Beverage = beverage;
+        this.Beverage = beverage;
     }
 
     public int getQuantity() {

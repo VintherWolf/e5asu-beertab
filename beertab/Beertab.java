@@ -1,8 +1,5 @@
 package beertab;
 
-import beertab.controllers.BeertabController;
-import beertab.entities.CustomerTable;
-import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.concurrent.Task;
@@ -10,9 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +14,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +22,7 @@ public class Beertab extends Application {
     private static final int MAXCOUNT = 6;
     private int check = 1;
 
-    public List<String> retData = new ArrayList<String>();
+    public static List<String> retData = new ArrayList<String>();
 
 
     @Override
@@ -107,19 +100,14 @@ public class Beertab extends Application {
             Thread.sleep(100);
 
             // Received table rows from database
-
             String inputLine;
             while ((inputLine = in.readLine()) != null)
             {
-                System.out.println("Received from server: " + inputLine);
-
                 if (inputLine.equals("Bye"))
                 {
                     break;
                 }
-
                 retData.add(inputLine);
-
             }
 
         } catch (UnknownHostException e) {
@@ -132,10 +120,6 @@ public class Beertab extends Application {
         }
         return 0;
     }
-
-
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {

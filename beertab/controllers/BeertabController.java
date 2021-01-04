@@ -14,6 +14,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.IntegerStringConverter;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -48,15 +49,12 @@ public class BeertabController implements Initializable  {
     private TableColumn<CustomerTable, Integer> costCol;
     // End of BeerTabTable
 
-    public void setTables() throws ParseException {
+    public void setTables(List<String> list) throws ParseException {
 
-        List<String> retData = new Beertab().retData;
+        List<String> retData = list;
 
-
-        if(retData != null || retData.size() != 0)
+        if(retData.size() != 0)
         {
-            System.out.println("Retrieving data from db!");
-
             int customerId = 0;
             int table = 0;
             String customer = "";
@@ -64,28 +62,38 @@ public class BeertabController implements Initializable  {
             int quantity = 0;
             int cost = 0;
 
+            JSONParser parser = new JSONParser();
+
             // Send data for each row (JSON Formatted string)
             for(String str : retData)
             {
-                JSONParser parser = new JSONParser();
-                JSONObject jsonobj = (JSONObject) parser.parse(str);
+                System.out.println(str);
+                parser.parse(str);
+                Object obj = JSONValue.parse(str);
+                JSONObject jsonobj = (JSONObject) obj;
+                System.out.println(jsonobj);
+                long lcustomerId = (long) jsonobj.get("customerId");
+                long ltable = (long) jsonobj.get("table");
+                customer = (String) jsonobj.get("customer");
+                beverage = (String) jsonobj.get("beverage");
+                long lquantity = (long) jsonobj.get("quantity");
+                long lcost = (long) jsonobj.get("cost");
 
-
-                customerId = (int) jsonobj.get("customerId");
-                table = (int) jsonobj.get("table");
-                customer = (String) jsonobj.get("Customer");
-                beverage = (String) jsonobj.get("Beverage");
-                quantity = (int) jsonobj.get("quantity");
-                cost = (int) jsonobj.get("cost");
+                // Cast long int to std int
+                customerId = (int) lcustomerId;
+                table = (int) ltable;
+                quantity = (int) lquantity;
+                cost = (int) lcost;
 
                 CustomerTable row = new CustomerTable(customerId, table, customer, beverage, quantity, cost);
                 beerTabTable.getItems().add(row);
             }
+            System.out.println("Beertab Ctrl: Tables set from database");
 
         }
         else
         {
-            System.out.println("No tables to set from database");
+            System.out.println("Beertab Ctrl: No tables to set from database");
         }
 
     }
@@ -103,9 +111,10 @@ public class BeertabController implements Initializable  {
 
         // load database table:
         try {
-            setTables();
+            setTables(Beertab.retData);
         } catch (ParseException e) {
             e.printStackTrace();
+            System.out.println("Beertab Ctrl: Unable to set tables from database");
         }
 
 
