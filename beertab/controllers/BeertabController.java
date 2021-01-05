@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.util.converter.IntegerStringConverter;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -48,6 +49,10 @@ public class BeertabController implements Initializable  {
     @FXML
     private TableColumn<CustomerTable, Integer> costCol;
     // End of BeerTabTable
+
+    @FXML
+    private Pane pn_top;
+    public static Pane ballpane;
 
     public void setTables(List<String> list) throws ParseException {
 
@@ -128,6 +133,8 @@ public class BeertabController implements Initializable  {
         costCol.setCellFactory(TextFieldTableCell.<CustomerTable, Integer>forTableColumn(new IntegerStringConverter()));
 
         tempCellValue = 0;
+
+        ballpane = this.pn_top;
 
     }
 

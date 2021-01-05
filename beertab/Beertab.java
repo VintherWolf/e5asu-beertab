@@ -1,12 +1,21 @@
 package beertab;
 
+import beertab.controllers.BeertabController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -129,14 +138,73 @@ public class Beertab extends Application {
                     Thread.currentThread());
             System.out.println("Hello from main Start");
 
+            Circle ball = new Circle(20, Color.LIGHTYELLOW);
+
+            //Setting the x, y position of the ball
+            ball.setCenterX(20);
+            ball.setCenterY(20);
+
+            //Setting the stroke width of the circle
+            ball.setStrokeWidth(20);
+
             Parent root = FXMLLoader.load(getClass().getResource("fxml/beertab.fxml"));
             Scene scene = new Scene(root);
-
+            BeertabController.ballpane.getChildren().add(ball);
             primaryStage.setTitle("Beverage Account");
             primaryStage.setScene(scene);
 
             // After the app is ready, show the stage
             primaryStage.show();
+
+            // Generate Beer pingpong Ball
+            Bounds bounds = BeertabController.ballpane.getBoundsInParent();
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20),
+                    new EventHandler<ActionEvent>() {
+
+                double dx = (double)  (Math.random() * 3) + 1; //Step on x or velocity
+                int ydirection = 1;
+                int xdirection = 1;
+
+                @Override
+                public void handle(ActionEvent t) {
+
+
+                    double dy = (double)  (Math.random() * 4) + 0; //Step on y
+
+                    boolean atBottomBorder = (ball.getLayoutY() + ball.getRadius()) >= 340;
+                    boolean atTopBorder = (ball.getLayoutY() + ball.getRadius()) < 20;
+
+                    if (atBottomBorder) {
+                        ydirection = -1;
+                    }
+
+                    if (atTopBorder) {
+                        ydirection = 1;
+                    }
+
+                    //If the ball reaches the left or right border make the step negative
+                    boolean atRightBorder = (ball.getLayoutX() + ball.getRadius()) >= 510;
+                    boolean atLeftBorder = (ball.getLayoutX() + ball.getRadius()) < 20;
+
+                    if (atRightBorder) {
+                        xdirection = -1;
+                    }
+
+                    if (atLeftBorder) {
+                        xdirection = 1;
+                    }
+
+                    //move the ball
+                    ball.setLayoutX(ball.getLayoutX() + dx * xdirection);
+                    ball.setLayoutY(ball.getLayoutY() + dy * ydirection);
+
+                }
+            }));
+
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+
 
         } catch (Exception e) {
             e.printStackTrace();
